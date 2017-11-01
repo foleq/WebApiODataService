@@ -7,10 +7,10 @@ namespace WebApiODataService.Models
     public class Person
     {
         [Key]
-        public String ID { get; set; }
+        public string ID { get; set; }
         [Required]
-        public String Name { get; set; }
-        public String Description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public List<Trip> Trips { get; set; }
     }
 }

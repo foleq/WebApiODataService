@@ -1,13 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApiODataService.Models
 {
     public class Trip
     {
         [Key]
-        public String ID { get; set; }
+        public string ID { get; set; }
         [Required]
-        public String Name { get; set; }
+        public string Name { get; set; }
     }
 }

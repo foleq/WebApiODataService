@@ -1,0 +1,8 @@
+Based on:
+http://www.odata.org/blog/how-to-use-web-api-odata-to-build-an-odata-v4-service-without-entity-framework/
+https://www.codeproject.com/Articles/1076927/CRUD-with-oData-V-and-ASP-NET-Web-API
+https://www.codeproject.com/Articles/1089577/RESTful-Day-sharp-OData-in-ASP-NET-Web-APIs#_Toc444707212
+
+https://stackoverflow.com/questions/43587279/how-to-generate-odata-v4-c-sharp-proxy-client-for-visual-studio-2017/43632850
+http://www.odata.org/blog/advanced-odata-tutorial-with-simple-odata-client/
+https://blogs.msdn.microsoft.com/odatateam/2014/03/11/tutorial-sample-how-to-use-odata-client-code-generator-to-generate-client-side-proxy-class/
