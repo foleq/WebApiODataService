@@ -23,6 +23,12 @@ namespace WebApiODataService.Controllers
             return Ok(_personRepository.GetAll().AsQueryable());
         }
 
+        public SingleResult<Person> Get([FromODataUri] string key)
+        {
+            var result = _personRepository.GetAll().Where(m => m.ID == key).AsQueryable();
+            return SingleResult.Create(result);
+        }
+
         /// <summary>
         /// Creates a new trip. 
         /// Use the POST http verb.
