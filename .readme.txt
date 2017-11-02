@@ -6,3 +6,9 @@ https://www.codeproject.com/Articles/1089577/RESTful-Day-sharp-OData-in-ASP-NET-
 https://stackoverflow.com/questions/43587279/how-to-generate-odata-v4-c-sharp-proxy-client-for-visual-studio-2017/43632850
 http://www.odata.org/blog/advanced-odata-tutorial-with-simple-odata-client/
 https://blogs.msdn.microsoft.com/odatateam/2014/03/11/tutorial-sample-how-to-use-odata-client-code-generator-to-generate-client-side-proxy-class/
+
+https://blogs.msdn.microsoft.com/odatateam/2014/12/08/tutorial-sample-functions-actions-in-web-api-v2-2-for-odata-v4-0-type-scenario/
+https://www.nuget.org/packages/Microsoft.OData.Client/
+http://odata.github.io/odata.net/#OData-Client-Code-Generation-Tool
+
+https://stackoverflow.com/questions/43312523/odata-v4-client-code-generator-how-to-do-deep-insert

@@ -19,6 +19,7 @@ namespace WebApiODataService
         private static IEdmModel GetEdmModel()
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.ContainerName = "DemoContainer";
             builder.Namespace = "DemoService";
 
             builder.EntitySet<Person>("People")
