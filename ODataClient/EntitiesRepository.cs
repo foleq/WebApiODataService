@@ -11,9 +11,12 @@ namespace ODataClient
     {
         public void x()
         {
-            var context = new DemoContainer(new Uri("http://localhost:54484/"));
-            var people = context.People.Expand(c => c.Trips).ToList();
+            var odataserviceUrl = "http://localhost:54484/";
+            //var odataserviceUrl = "http://localhost.odataservice/";
 
+            var context = new DemoContainer(new Uri(odataserviceUrl));
+            var people = context.People.Expand(c => c.Trips);
+            var test = context.People.Where(p => p.Name == "test");
             //TODO: Deep insert doesnt work :(
             //DataServiceCollection<Trip> trips =
             //    new DataServiceCollection<Trip>(context, "Trips"/*entityset name*/, null, null);

@@ -13,6 +13,7 @@ namespace WebApiODataService
     {
         public static void Register(HttpConfiguration config)
         {
+            config.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
             config.MapODataServiceRoute("odata", null, GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
             config.EnsureInitialized();
         }
