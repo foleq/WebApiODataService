@@ -7,16 +7,18 @@ using WebApiODataService.Models;
 
 namespace ODataClient
 {
-    public class EntitiesRepository
+    public class TestRepositoryUsingLinq
     {
         public void x()
         {
-            var odataserviceUrl = "http://localhost:54484/";
-            //var odataserviceUrl = "http://localhost.odataservice/";
+            //var odataserviceUrl = "http://localhost:54484/";
+            var odataserviceUrl = "http://localhost.odataservice/";
 
             var context = new DemoContainer(new Uri(odataserviceUrl));
             var people = context.People.Expand(c => c.Trips);
             var test = context.People.Where(p => p.Name == "test");
+            var test2 = context.People.Where(p => p.Trips.Any(t => t.ID == "0001"));
+            var result = test2.ToList();
             //TODO: Deep insert doesnt work :(
             //DataServiceCollection<Trip> trips =
             //    new DataServiceCollection<Trip>(context, "Trips"/*entityset name*/, null, null);
@@ -24,7 +26,7 @@ namespace ODataClient
             //trips.Load(Trip.CreateTrip("55", "name 55"));
             var trips = new DataServiceCollection<Trip>(new List<Trip>() { Trip.CreateTrip("55", "name 55") }, TrackingMode.None);
 
-            context.People.AddOrUpdate(new List<Person>()
+            var addOrUpdateQuery = context.People.AddOrUpdate(new List<Person>()
             {
                 new Person()
                 {
@@ -33,7 +35,8 @@ namespace ODataClient
                     Description = "desc 99",
                     Trips = trips
                 }
-            }).Execute();
+            });
+            var r = addOrUpdateQuery.Execute();
         }
 
 

@@ -1,4 +1,4 @@
-﻿using ODataClient.Configurations;
+﻿using ODataClient.Builders;
 using ODataClient.Helpers;
 using ODataClient.Models;
 using System.Collections.Generic;
@@ -8,27 +8,25 @@ namespace ODataClient
     public interface IODataRepository<TModel>
         where TModel : class
     {
-        ICollection<TModel> GetCollection();
+        ICollection<TModel> GetCollection(ODataSearchParameters oDataSearchParameters);
     }
 
     public class ODataRepository<TModel> : IODataRepository<TModel>
         where TModel : class
     {
-        private readonly IRepositoryConfiguration<TModel> _repositoryConfiguration;
         private readonly IHttpHandler _httpHandler;
-        private readonly string _odataEntitySetUrl;
+        private readonly IODataUrlBuilder<TModel> _oDataUrlBuilder;
 
-        public ODataRepository(IRepositoryConfiguration<TModel> repositoryConfiguration,
-            IHttpHandler httpHandler)
+        public ODataRepository(IHttpHandler httpHandler,
+            IODataUrlBuilder<TModel> oDataUrlBuilder)
         {
-            _repositoryConfiguration = repositoryConfiguration;
             _httpHandler = httpHandler;
-            _odataEntitySetUrl = _repositoryConfiguration.ODataEndpointUrl + _repositoryConfiguration.EntitySetName;
+            _oDataUrlBuilder = oDataUrlBuilder;
         }
 
-        public ICollection<TModel> GetCollection()
+        public ICollection<TModel> GetCollection(ODataSearchParameters oDataSearchParameters)
         {
-            var url = _odataEntitySetUrl;
+            var url = _oDataUrlBuilder.BuildODataUrl(oDataSearchParameters);
             var documents = new List<TModel>();
 
             do

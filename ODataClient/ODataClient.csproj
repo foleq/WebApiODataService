@@ -59,12 +59,14 @@
     <Compile Include="Configurations\IRepositoryConfiguration.cs" />
     <Compile Include="Configurations\PersonRepositoryConfiguration.cs" />
     <Compile Include="Configurations\TripRepositoryConfiguration.cs" />
-    <Compile Include="EntitiesRepository.cs" />
+    <Compile Include="TestRepositoryUsingLinq.cs" />
     <Compile Include="Connected Services\WebApiODataService\WebApiODataServiceReferences.cs" />
     <Compile Include="Helpers\HttpHandler.cs" />
     <Compile Include="Models\ODataResult.cs" />
-    <Compile Include="Models\Person.cs" />
-    <Compile Include="Models\Trip.cs" />
+    <Compile Include="Models\ODataSearchParameters.cs" />
+    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Trip.cs" />
+    <Compile Include="Builders\ODataUrlBuilder.cs" />
     <Compile Include="Repositories\ODataRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

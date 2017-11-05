@@ -1,4 +1,4 @@
-﻿using ODataClient.Models;
+﻿using ODataClient.Entities;
 
 namespace ODataClient.Configurations
 {

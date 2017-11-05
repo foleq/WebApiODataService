@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ODataClient.Models
+namespace ODataClient.Entities
 {
     public class Person
     {

@@ -1,4 +1,4 @@
-﻿namespace ODataClient.Models
+﻿namespace ODataClient.Entities
 {
     public class Trip
     {

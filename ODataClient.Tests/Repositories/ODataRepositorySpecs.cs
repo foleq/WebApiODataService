@@ -1,8 +1,9 @@
 ﻿using developwithpassion.specifications.rhinomocks;
 using Machine.Specifications;
-using ODataClient.Configurations;
+using ODataClient.Builders;
 using ODataClient.Helpers;
 using ODataClient.Models;
+using ODataClient.Tests.HelpersForTests;
 using Rhino.Mocks;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,16 @@ using System.Threading.Tasks;
 
 namespace ODataClient.Tests.Repositories
 {
-    public class EntityTest
-    {
-        string Id { get; set; }
-        string Name { get; set; }
-    }
-
     [Subject(typeof(ODataRepository<EntityTest>))]
     public abstract class ODataRepositorySpecs : Observes<IODataRepository<EntityTest>, ODataRepository<EntityTest>>
     {
         Establish context = () =>
         {
-            _repositoryConfiguration = depends.on<IRepositoryConfiguration<EntityTest>>();
-            _repositoryConfiguration.Stub(x => x.ODataEndpointUrl).Return(_oDataEndpointUrl);
-            _repositoryConfiguration.Stub(x => x.EntitySetName).Return(_entitySetName);
-
             httpHandler = depends.on<IHttpHandler>();
+
+            _oDataUrlBuilder = depends.on<IODataUrlBuilder<EntityTest>>();
+            _oDataUrlBuilder.Stub(x => x.BuildODataUrl(oDataSearchParameters))
+                .Return(oDataUrlFromBuilder);
         };
 
         protected static void SetResultForHttpHanlder(string requestUrl, List<EntityTest> documents, string nextPageUrl = null)
@@ -38,22 +33,22 @@ namespace ODataClient.Tests.Repositories
                 }));
         }
 
-        private static IRepositoryConfiguration<EntityTest> _repositoryConfiguration;
-        private static readonly string _oDataEndpointUrl = "http://odataendpointurl/";
-        private static readonly string _entitySetName = "entitySet";
-        protected static readonly string urlForGetDocumentsFromEntitySet = _oDataEndpointUrl + _entitySetName;
+        private static IODataUrlBuilder<EntityTest> _oDataUrlBuilder;
         protected static IHttpHandler httpHandler;
+
+        protected static readonly ODataSearchParameters oDataSearchParameters = new ODataSearchParameters();
+        protected static string oDataUrlFromBuilder = "url from builder";
     }
 
     public class when_getting_collection_with_1_page : ODataRepositorySpecs
     {
         Establish context = () =>
         {
-            SetResultForHttpHanlder(urlForGetDocumentsFromEntitySet, _collectionFromHttpHandler);
+            SetResultForHttpHanlder(oDataUrlFromBuilder, _collectionFromHttpHandler);
         };
 
         Because of = () =>
-            _collectionResult = sut.GetCollection();
+            _collectionResult = sut.GetCollection(oDataSearchParameters);
 
         It should_return_proper_collection = () =>
             _collectionResult.ShouldEqual(_collectionFromHttpHandler);
@@ -68,13 +63,13 @@ namespace ODataClient.Tests.Repositories
         {
             var urlForGetDocumentsFromEntitySetFor2ndPage = "http://url_for_2nd_page";
             var urlForGetDocumentsFromEntitySetFor3rdPage = "http://url_for_3rd_page";
-            SetResultForHttpHanlder(urlForGetDocumentsFromEntitySet, new List<EntityTest>() { _entityTest_1 }, urlForGetDocumentsFromEntitySetFor2ndPage);
+            SetResultForHttpHanlder(oDataUrlFromBuilder, new List<EntityTest>() { _entityTest_1 }, urlForGetDocumentsFromEntitySetFor2ndPage);
             SetResultForHttpHanlder(urlForGetDocumentsFromEntitySetFor2ndPage, new List<EntityTest>() { _entityTest_2 }, urlForGetDocumentsFromEntitySetFor3rdPage);
             SetResultForHttpHanlder(urlForGetDocumentsFromEntitySetFor3rdPage, new List<EntityTest>() { _entityTest_3 });
         };
 
         Because of = () =>
-            _collectionResult = sut.GetCollection();
+            _collectionResult = sut.GetCollection(oDataSearchParameters);
 
         It should_return_3_documents_in_collection = () =>
             _collectionResult.Count.ShouldEqual(3);

@@ -25,7 +25,7 @@ namespace WebApiODataService
             builder.EntitySet<Person>("People")
                 .EntityType
                 .Select(new String[] { nameof(Person.Name) })
-                .Filter(new String[] { nameof(Person.Description) })
+                .Filter(new String[] { nameof(Person.Description), nameof(Person.Trips) })
                 .Page(5, 5)
                 .Expand(new String[] { nameof(Person.Trips) });
             builder.EntityType<Person>()
