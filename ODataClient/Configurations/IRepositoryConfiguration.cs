@@ -5,6 +5,7 @@
     {
         string ODataEndpointUrl { get; }
         string EntitySetName { get; }
+        string AddOrUpdateAction { get; }
     }
 
     public abstract class RepositoryConfiguration<TModel> : IRepositoryConfiguration<TModel>
@@ -13,5 +14,7 @@
         public string ODataEndpointUrl => "http://localhost.odataservice/";
 
         public abstract string EntitySetName { get; }
+
+        public string AddOrUpdateAction => "DemoService.AddOrUpdate";
     }
 }

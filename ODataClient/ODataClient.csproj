@@ -59,6 +59,7 @@
     <Compile Include="Configurations\IRepositoryConfiguration.cs" />
     <Compile Include="Configurations\PersonRepositoryConfiguration.cs" />
     <Compile Include="Configurations\TripRepositoryConfiguration.cs" />
+    <Compile Include="Models\ODataRequest.cs" />
     <Compile Include="TestRepositoryUsingLinq.cs" />
     <Compile Include="Connected Services\WebApiODataService\WebApiODataServiceReferences.cs" />
     <Compile Include="Helpers\HttpHandler.cs" />

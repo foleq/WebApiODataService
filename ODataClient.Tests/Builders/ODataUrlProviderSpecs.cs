@@ -16,11 +16,14 @@ namespace ODataClient.Tests.Providers
             _repositoryConfiguration = depends.on<IRepositoryConfiguration<EntityTest>>();
             _repositoryConfiguration.Stub(x => x.ODataEndpointUrl).Return(_oDataEndpointUrl);
             _repositoryConfiguration.Stub(x => x.EntitySetName).Return(_entitySetName);
+            _repositoryConfiguration.Stub(x => x.AddOrUpdateAction).Return(addOrUpdateAction);
+
         };
 
         private static IRepositoryConfiguration<EntityTest> _repositoryConfiguration;
         private static readonly string _oDataEndpointUrl = "http://odataendpointurl/";
         private static readonly string _entitySetName = "entitySet";
+        protected static readonly string addOrUpdateAction = "addOrUpdateAction";
         protected static readonly string urlForGetDocumentsFromEntitySet = _oDataEndpointUrl + _entitySetName;
     }
 
@@ -93,5 +96,16 @@ namespace ODataClient.Tests.Providers
 
         It should_return_proper_url = () =>
             urlResult.ShouldEqual(urlForGetDocumentsFromEntitySet + "?$filter=some filter condition&$top=55");
+    }
+
+    class when_building_addOrupdate_action_url : ODataUrlBuilderSpecs
+    {
+        Because of = () =>
+            urlResult = sut.BuildODataAddOrUpdateActionUrl();
+
+        It should_build_proper_url = () =>
+            urlResult.ShouldEqual($"{urlForGetDocumentsFromEntitySet}/{addOrUpdateAction}");
+
+        private static string urlResult;
     }
 }

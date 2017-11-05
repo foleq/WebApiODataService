@@ -1,5 +1,6 @@
 ﻿using developwithpassion.specifications.rhinomocks;
 using Machine.Specifications;
+using Newtonsoft.Json;
 using ODataClient.Builders;
 using ODataClient.Helpers;
 using ODataClient.Models;
@@ -21,6 +22,8 @@ namespace ODataClient.Tests.Repositories
             _oDataUrlBuilder = depends.on<IODataUrlBuilder<EntityTest>>();
             _oDataUrlBuilder.Stub(x => x.BuildODataUrl(oDataSearchParameters))
                 .Return(oDataUrlFromBuilder);
+            _oDataUrlBuilder.Stub(x => x.BuildODataAddOrUpdateActionUrl())
+                .Return(oDataAddOrUpdateActionUrl);
         };
 
         protected static void SetResultForHttpHanlder(string requestUrl, List<EntityTest> documents, string nextPageUrl = null)
@@ -38,6 +41,7 @@ namespace ODataClient.Tests.Repositories
 
         protected static readonly ODataSearchParameters oDataSearchParameters = new ODataSearchParameters();
         protected static string oDataUrlFromBuilder = "url from builder";
+        protected static string oDataAddOrUpdateActionUrl = "url for add or update action";
     }
 
     public class when_getting_collection_with_1_page : ODataRepositorySpecs
@@ -84,5 +88,32 @@ namespace ODataClient.Tests.Repositories
 
         private static readonly EntityTest _entityTest_1 = new EntityTest(), _entityTest_2 = new EntityTest(), _entityTest_3 = new EntityTest();
         private static ICollection<EntityTest> _collectionResult;
+    }
+
+    public class when_adding_or_updating_collection : ODataRepositorySpecs
+    {
+        Establish context = () =>
+        {
+            var jsonData = JsonConvert.SerializeObject(new ODataRequest<EntityTest>()
+            {
+                data = _entitiesToBeAdded
+            });
+            httpHandler.Stub(x => x.PostJsonAsync<string>(oDataAddOrUpdateActionUrl, jsonData))
+                .Return(Task.FromResult(""));
+        };
+
+        Because of = () =>
+            _result = sut.AddOrUpdate(_entitiesToBeAdded);
+
+        It should_properly_add_collection_items = () =>
+            _result.ShouldBeTrue();
+
+        private static readonly ICollection<EntityTest> _entitiesToBeAdded = 
+            new List<EntityTest>()
+            {
+                new EntityTest() { Id = "01", Name = "Name 01" },
+                new EntityTest() { Id = "02", Name = "Name 02" },
+            };
+        private static bool _result;
     }
 }

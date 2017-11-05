@@ -1,7 +1,6 @@
 ﻿using ODataClient.Configurations;
 using ODataClient.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ODataClient.Builders
 {
@@ -9,6 +8,7 @@ namespace ODataClient.Builders
         where TModel : class
     {
         string BuildODataUrl(ODataSearchParameters oDataSearchParameters);
+        string BuildODataAddOrUpdateActionUrl();
     }
 
     public class ODataUrlBuilder<TModel> : IODataUrlBuilder<TModel>
@@ -22,7 +22,7 @@ namespace ODataClient.Builders
             _repositoryConfiguration = repositoryConfiguration;
             _odataEntitySetUrl = _repositoryConfiguration.ODataEndpointUrl + _repositoryConfiguration.EntitySetName;
         }
-
+        
         public string BuildODataUrl(ODataSearchParameters oDataSearchParameters)
         {
             var url = _odataEntitySetUrl;
@@ -43,6 +43,11 @@ namespace ODataClient.Builders
                 url += $"?{parametersQuery}";
             }
             return url.ToString();
+        }
+
+        public string BuildODataAddOrUpdateActionUrl()
+        {
+            return $"{_odataEntitySetUrl}/{_repositoryConfiguration.AddOrUpdateAction}";
         }
     }
 }

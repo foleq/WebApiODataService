@@ -1,4 +1,5 @@
-﻿using ODataClient.Builders;
+﻿using Newtonsoft.Json;
+using ODataClient.Builders;
 using ODataClient.Helpers;
 using ODataClient.Models;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace ODataClient
         where TModel : class
     {
         ICollection<TModel> GetCollection(ODataSearchParameters oDataSearchParameters);
+        bool AddOrUpdate(ICollection<TModel> collection);
     }
 
     public class ODataRepository<TModel> : IODataRepository<TModel>
@@ -44,6 +46,17 @@ namespace ODataClient
             var task = _httpHandler.GetAsync<ODataResult<TModel>>(url);
             task.Wait();
             return task.Result;
+        }
+
+        public bool AddOrUpdate(ICollection<TModel> collection)
+        {
+            var jsonData = JsonConvert.SerializeObject(new ODataRequest<TModel>()
+            {
+                data = collection
+            });
+            var task = _httpHandler.PostJsonAsync<string>(_oDataUrlBuilder.BuildODataAddOrUpdateActionUrl(), jsonData);
+            task.Wait();
+            return task.IsCompleted;
         }
     }
 }
