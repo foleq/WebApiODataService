@@ -43,7 +43,7 @@ namespace ODataClient.Tests.Providers
         };
 
         It should_return_proper_url = () =>
-            urlResult.ShouldEqual(urlForGetDocumentsFromEntitySet + "?");
+            urlResult.ShouldEqual(urlForGetDocumentsFromEntitySet);
     }
 
     class when_building_url_with_filter : when_building_url
@@ -61,5 +61,37 @@ namespace ODataClient.Tests.Providers
 
         It should_return_proper_url = () =>
             urlResult.ShouldEqual(urlForGetDocumentsFromEntitySet + "?$filter=filter condition");
+    }
+
+    class when_building_url_with_set_top : when_building_url
+    {
+        Establish context = () =>
+        {
+            oDataSearchParameters = new ODataSearchParameters()
+            {
+                Top = 99
+            };
+        };
+
+        It should_return_proper_url = () =>
+            urlResult.ShouldEqual(urlForGetDocumentsFromEntitySet + "?$top=99");
+    }
+
+    class when_building_url_with_filter_and_set_top : when_building_url
+    {
+        Establish context = () =>
+        {
+            oDataSearchParameters = new ODataSearchParameters()
+            {
+                Filter = new ODataFilter()
+                {
+                    Query = "some filter condition"
+                },
+                Top = 55
+            };
+        };
+
+        It should_return_proper_url = () =>
+            urlResult.ShouldEqual(urlForGetDocumentsFromEntitySet + "?$filter=some filter condition&$top=55");
     }
 }

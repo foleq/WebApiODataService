@@ -17,8 +17,9 @@ namespace ODataClient.Tests
             {
                 Filter = new ODataFilter()
                 {
-                    Query = "Trips/any(x: x/ID eq '0003')"
-                }
+                    Query = "Trips/any(x: x/ID eq '0003')",
+                },
+                Top = 2
             });
         };
 
