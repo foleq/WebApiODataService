@@ -7,5 +7,7 @@ namespace ODataClient.Models
     {
         [JsonProperty("value")]
         public IList<TModel> Documents { get; set; }
+        [JsonProperty("@odata.nextLink")]
+        public string NextPageLink { get; set; }
     }
 }

@@ -29,31 +29,18 @@ namespace WebApiODataService.DataSource
             this.People = new List<Person>();
             this.Trips = new List<Trip>();
         }
-        public void Initialize()
+        public void Initialize() 
         {
-            this.Trips.AddRange(new List<Trip>()
+            var numberOfTrips = 100;
+            for(var i = 0; i < numberOfTrips; i++)
             {
-                new Trip()
+                Trips.Add(new Trip()
                 {
-                    ID = "0",
-                    Name = "Trip 0"
-                },
-                new Trip()
-                {
-                    ID = "1",
-                    Name = "Trip 1"
-                },
-                new Trip()
-                {
-                    ID = "2",
-                    Name = "Trip 2"
-                },
-                new Trip()
-                {
-                    ID = "3",
-                    Name = "Trip 3"
-                }
-            });
+                    ID = i.ToString("D4"),
+                    Name = "Trip " + i.ToString("D4"),
+                });
+            }
+
             this.People.AddRange(new List<Person>
             {
                 new Person()

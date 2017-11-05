@@ -1,6 +1,5 @@
 ﻿using Microsoft.OData.Edm;
 using System;
-using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.OData.Batch;
 using System.Web.OData.Builder;
@@ -27,13 +26,16 @@ namespace WebApiODataService
                 .EntityType
                 .Select(new String[] { nameof(Person.Name) })
                 .Filter(new String[] { nameof(Person.Description) })
+                .Page(5, 5)
                 .Expand(new String[] { nameof(Person.Trips) });
             builder.EntityType<Person>()
                 .Collection
                 .Action("AddOrUpdate")
                 .CollectionEntityParameter<Person>("data");
 
-            builder.EntitySet<Trip>("Trips");
+            builder.EntitySet<Trip>("Trips")
+                .EntityType
+                .Page(5, 5);
             builder.EntityType<Trip>()
                 .Collection
                 .Action("AddOrUpdate")
